@@ -9,6 +9,7 @@ from langchain.vectorstores import FAISS
 from langchain.llms import OpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.callbacks import get_openai_callback
+from langchain.chat_models import ChatOpenAI
 import os
 
 #sidebar contents
@@ -85,7 +86,7 @@ def main():
         if query:
             docs = VectorStore.similarity_search(query=query, k=3)
 
-            llm = OpenAI(model_name ='gpt-3.5-turbo')
+            llm = ChatOpenAI(model_name='gpt-3.5-turbo')
             chain = load_qa_chain(llm = llm, chain_type="stuff")
             with get_openai_callback() as cb:
                 response =  chain.run(input_documents = docs,question = query)
